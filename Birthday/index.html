@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Surprise 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Fredoka One', cursive;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #ffecd2 50%, #fcb69f 75%, #ff9a9e 100%);
+  text-align: center;
+  color: #ff6b9d;
+  min-height: 100vh;
+}
+
+header {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  margin: 20px;
+  box-shadow: 0 8px 32px rgba(255, 107, 157, 0.3);
+}
+
+/* CAKE */
+#cake {
+  width: 140px;
+  height: 100px;
+  background: linear-gradient(45deg, #ff6b9d, #ffb3ba);
+  border-radius: 15px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+  transition: transform 0.3s;
+}
+
+#cake:hover {
+  transform: scale(1.05);
+}
+
+.candle {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.flame {
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ffd700;
+  animation: flicker 1s infinite alternate;
+}
+
+@keyframes flicker {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+/* QUIZ + SECTIONS */
+#quiz, #gallery, #wishes, #waiting {
+  display: none;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 8px 32px rgba(255, 107, 157, 0.2);
+}
+
+#quiz h2 {
+  color: #ff6b9d;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+#wishes h2 {
+  color: #ff6b9d;
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+#wishes p {
+  color: #ffb3ba;
+  font-size: 1.5em;
+}
+
+button {
+  padding: 12px 25px;
+  margin: 10px;
+  border-radius: 25px;
+  border: none;
+  background: linear-gradient(45deg, #ff6b9d, #ffb3ba);
+  color: white;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-family: 'Fredoka One', cursive;
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+}
+
+/* SLIDER */
+.slider {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(255, 107, 157, 0.3);
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.slide img, .slide video {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  color: #ff6b9d;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.2em;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.fullscreen-video {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 1000;
+  background: black;
+  border-radius: 0 !important;
+  object-fit: cover;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div id="cake" onclick="eatBite()">
+    <div class="candle">
+      <div class="flame" id="flame"></div>
+    </div>
+  </div>
+  <h1 style="font-size: 4em; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin: 0;">🎉 Happy Birthday 💖</h1>
+</header>
+
+<!-- QUIZ -->
+<div id="quiz">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+</div>
+
+<!-- WAITING -->
+<div id="waiting" style="display: none;">
+  <h2>⏳ Waiting for surprise...</h2>
+  <p>Thinking about the beautiful memories we spent together 💭✨</p>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery" class="slider">
+
+  <!-- IMAGES -->
+  <div class="slide active">
+    <img src="pic - 1.jpeg">
+    <div class="overlay">Cherished memories together 💕</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 6.jpeg">
+    <div class="overlay">Laughter and joy forever 🎉</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 10.jpeg">
+    <div class="overlay">Friendship adventures 🌟</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 5.jpeg">
+    <div class="overlay">Unforgettable moments 😊</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 2.jpeg">
+    <div class="overlay">Sweet memories 💖</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 7.jpeg">
+    <div class="overlay">Happy times together 🎈</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 8.jpeg">
+    <div class="overlay">Forever friends ❤️</div>
+    </div>
+    <div class="slide">
+        <img src="pic - 3.jpeg">
+        <div class="overlay">More unforgettable moments 🌟</div>
+    </div>
+    <div class="slide">
+        <img src="pic - 9.jpeg">
+        <div class="overlay">Love and friendship 💕</div>
+    </div>
+    <div class="slide">
+        <img src="pic - 4.jpeg">
+        <div class="overlay">Thank you for being my friend 🎉</div>
+    </div>
+ 
+
+  <!-- VIDEOS -->
+  <div class="slide video"><video src="v1.mp4"></video></div>
+  <div class="slide video"><video src="v2.mp4"></video></div>
+  <div class="slide video"><video src="v3.mp4"></video></div>
+
+</div>
+
+<!-- WISHES -->
+<div id="wishes">
+  <h2>💖 "Thank you for coming into my life and continue these moments more forever together" 💖</h2>
+  <p>May our friendship bring endless joy and cherished memories 🎉</p>
+</div>
+
+<script>
+
+// 🍰 CAKE
+function eatBite() {
+  document.getElementById("cake").style.display = "none";
+  document.getElementById("quiz").style.display = "block";
+  loadQuestion();
+}
+
+// QUIZ
+const quizData = [
+  {
+    question: "Do you remember our first day when I meet you? 🌟",
+    options: ["Yes 😊", "No 😢"]
+  },
+  {
+    question: "Are you ready for the surprise? 🎉",
+    options: ["Yes! 🎈", "No 🤔"]
+  },
+  {
+    question: "Do you cherish our friendship? 💖",
+    options: ["Absolutely! ❤️", "Of course! 💕"]
+  }
+];
+
+let currentQ = 0;
+
+function loadQuestion() {
+  const q = quizData[currentQ];
+  document.getElementById("question").innerText = q.question;
+
+  const ansDiv = document.getElementById("answers");
+  ansDiv.innerHTML = "";
+
+  q.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.onclick = nextQuestion;
+    ansDiv.appendChild(btn);
+  });
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ < quizData.length) {
+    loadQuestion();
+  } else {
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("waiting").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("waiting").style.display = "none";
+      document.getElementById("gallery").style.display = "block";
+      startSlider();
+    }, 3000); // Wait 3 seconds for thinking
+  }
+}
+
+// 🎥 SLIDER LOGIC
+let current = 0;
+let interval;
+
+const slides = document.querySelectorAll(".slide");
+
+function showSlide(i) {
+  slides.forEach(s => s.classList.remove("active"));
+  slides[i].classList.add("active");
+}
+
+function startSlider() {
+  interval = setInterval(() => {
+    const next = current + 1;
+
+    if (slides[next] && !slides[next].classList.contains("video")) {
+      current = next;
+      showSlide(current);
+    } else {
+      clearInterval(interval);
+      playVideos(next);
+    }
+  }, 3000);
+}
+
+// 🎬 PLAY VIDEOS ONE BY ONE
+function playVideos(startIndex) {
+  let i = startIndex;
+
+  function playNextVideo() {
+    if (i >= slides.length) {
+      document.getElementById("wishes").style.display = "block";
+      return;
+    }
+
+    showSlide(i);
+
+    const video = slides[i].querySelector("video");
+    if (video) {
+      video.play();
+
+      if (i === slides.length - 1) { // Last video
+        video.requestFullscreen().catch(err => console.log(err));
+      }
+
+      video.onended = () => {
+        if (i === slides.length - 1) {
+          document.exitFullscreen().catch(err => console.log(err));
+        }
+        i++;
+        playNextVideo();
+      };
+    } else {
+      // If no video, just wait or move to next
+      setTimeout(() => {
+        i++;
+        playNextVideo();
+      }, 3000);
+    }
+  }
+
+  playNextVideo();
+}
+
+</script>
+
+</body>
+</html>
