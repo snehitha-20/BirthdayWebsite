@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Surprise 🎂</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<header>
+  <div id="cake" onclick="eatBite()">
+    <div class="candle">
+      <div class="flame" id="flame"></div>
+    </div>
+  </div>
+  <h1 style="font-size: 4em; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin: 0;">🎉 Happy Birthday 💖</h1>
+</header>
+
+<!-- QUIZ -->
+<div id="quiz">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+</div>
+
+<!-- WAITING -->
+<div id="waiting" style="display: none;">
+  <h2>⏳ Waiting for surprise...</h2>
+  <p>Thinking about the beautiful memories we spent together 💭✨</p>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery" class="slider">
+
+  <!-- IMAGES -->
+  <div class="slide active">
+    <img src="pic - 1.jpeg">
+    <div class="overlay">Cherished memories together 💕</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 6.jpeg">
+    <div class="overlay">Laughter and joy forever 🎉</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 10.jpeg">
+    <div class="overlay">Friendship adventures 🌟</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 5.jpeg">
+    <div class="overlay">Unforgettable moments 😊</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 2.jpeg">
+    <div class="overlay">Sweet memories 💖</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 7.jpeg">
+    <div class="overlay">Happy times together 🎈</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 8.jpeg">
+    <div class="overlay">Forever friends ❤️</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 3.jpeg">
+    <div class="overlay">More unforgettable moments 🌟</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 9.jpeg">
+    <div class="overlay">Love and friendship 💕</div>
+  </div>
+  <div class="slide">
+    <img src="pic - 4.jpeg">
+    <div class="overlay">Thank you for being my friend 🎉</div>
+  </div>
+
+  <!-- VIDEOS -->
+  <div class="slide video"><video src="v1.mp4"></video></div>
+  <div class="slide video"><video src="v2.mp4"></video></div>
+  <div class="slide video"><video src="v3.mp4"></video></div>
+
+</div>
+
+<!-- WISHES -->
+<div id="wishes">
+  <h2>💖 "Thank you for coming into my life and continue these moments more forever together" 💖</h2>
+  <p>May our friendship bring endless joy and cherished memories 🎉</p>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
